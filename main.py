@@ -3,6 +3,8 @@ import pandas as pd
 import numpy as np
 import pickle
 
+import matplotlib.pyplot as plt
+
 from sklearn.model_selection import train_test_split
 from sklearn.ensemble import RandomForestClassifier, RandomForestRegressor
 
@@ -25,6 +27,24 @@ from sklearn.impute import SimpleImputer
 from sklearn.compose import ColumnTransformer
 
 selector = 1
+
+
+def plot_roc_curve(fpr, tpr):
+    """
+    Plots a ROC curve given the false positive rate (fpr)
+    and true positive rate (tpr) of a model.
+    """
+    # Plot roc curve
+    plt.plot(fpr, tpr, color="orange", label="ROC")
+    # Plot line with no predictive power (baseline)
+    # plt.plot([0, 1], [0, 1], color="darkblue", linestyle="--", label="Guessing")
+
+    # Customize the plot
+    plt.xlabel("False positive rate (fpr)")
+    plt.ylabel("True positive rate (tpr)")
+    plt.title("Receiver Operating Characteristic (ROC) Curve")
+    plt.legend()
+    plt.show()
 
 
 def main_fn(string0: str = "fn") -> None:
@@ -121,6 +141,32 @@ def main_fn(string0: str = "fn") -> None:
     print(heart_disease["target"].value_counts())
 
     print(mean_absolute_error(y_test, y_preds))
+
+    # Single training and test split score
+    model_single_score = model.score(X_test, y_test)
+
+    # Take the mean of 5-fold cross-validation score
+    model_cross_val_score = np.mean(cross_val_score(model, X, y, cv=5))
+
+    print(model_single_score, model_cross_val_score)
+    print(f"Heart Disease Classifier Cross-Validated Accuracy: {model_cross_val_score * 100:.2f}%")
+
+    # Make predictions with probabilities
+    y_probs = model.predict_proba(X_test)
+
+    y_probs_positive = y_probs[:, 1]
+
+    # Caculate fpr, tpr and thresholds
+    fpr, tpr, thresholds = roc_curve(y_test, y_probs_positive)
+    print("roc_auc_score: ", roc_auc_score(y_test, y_probs_positive))
+
+    plot_roc_curve(fpr, tpr)
+
+    # Plot perfect ROC curve and AUC score
+    fpr, tpr, thresholds = roc_curve(y_test, y_test)
+    plot_roc_curve(fpr, tpr)
+    # Perfect AUC score
+    print(roc_auc_score(y_test, y_test))
 
 
 def second_fn(string1: str = "fn") -> None:
