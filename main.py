@@ -2,12 +2,13 @@ import matplotlib.pyplot as plt
 import pandas as pd
 import numpy as np
 import pickle
+import seaborn as sns
 
 import matplotlib.pyplot as plt
 
 from sklearn.model_selection import train_test_split
 from sklearn.ensemble import RandomForestClassifier, RandomForestRegressor
-
+from sklearn.metrics import plot_confusion_matrix
 # Different classification metrics
 # Accuracy, Reciver Operating Characteristic (ROC curve)/Area under curve (AUC), Confusion matrix, Classification report
 from sklearn.metrics import accuracy_score, roc_curve, roc_auc_score, confusion_matrix, classification_report, mean_absolute_error
@@ -44,6 +45,23 @@ def plot_roc_curve(fpr, tpr):
     plt.ylabel("True positive rate (tpr)")
     plt.title("Receiver Operating Characteristic (ROC) Curve")
     plt.legend()
+    plt.show()
+
+
+def plot_conf_mat(conf_mat):
+    """
+    Plots a confusion matrix using Seaborn's heatmap().
+    """
+    fig, ax = plt.subplots(figsize=(3, 3))
+    ax = sns.heatmap(conf_mat,
+                     annot=True,  # Annotate the boxes with conf_mat info
+                     cbar=False)
+    plt.xlabel("Predicted label")
+    plt.ylabel("True label")
+
+    # Fix the broken annotations (this happened in Matplotlib 3.1.1)
+    bottom, top = ax.get_ylim()
+    ax.set_ylim(bottom + 0.5, top - 0.5)
     plt.show()
 
 
@@ -167,6 +185,29 @@ def main_fn(string0: str = "fn") -> None:
     plot_roc_curve(fpr, tpr)
     # Perfect AUC score
     print(roc_auc_score(y_test, y_test))
+
+    y_preds = model.predict(X_test)
+
+    print("confusion_matrix", confusion_matrix(y_test, y_preds))
+    # Visualize confusion matrix with pd.crosstab()
+    print(pd.crosstab(y_test,
+                y_preds,
+                rownames=["Actual Labels"],
+                colnames=["Predicted Labels"]))
+
+    # Set the font scale
+    sns.set(font_scale=1.5)
+
+    # Create a confusion matrix
+    conf_mat = confusion_matrix(y_test, y_preds)
+
+    # Plot it using Seaborn
+    sns.heatmap(conf_mat)
+
+    plot_conf_mat(conf_mat)
+
+    plot_confusion_matrix(model, X, y)
+    plt.show()
 
 
 def second_fn(string1: str = "fn") -> None:
