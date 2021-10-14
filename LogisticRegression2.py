@@ -15,13 +15,13 @@ import pandas as pd
 # Importar el data set
 dataset = pd.read_csv('./data/Social_Network_Ads.csv')
 
-X = dataset.iloc[:, [2,3]].values
+X = dataset.iloc[:, [2, 3]].values
 y = dataset.iloc[:, 4].values
 
 
 # Dividir el data set en conjunto de entrenamiento y conjunto de testing
 from sklearn.model_selection import train_test_split
-X_train, X_test, y_train, y_test = train_test_split(X, y, test_size = 0.25, random_state = 0)
+X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.25, random_state=0)
 
 
 # Escalado de variables
@@ -33,11 +33,11 @@ X_test = sc_X.transform(X_test)
 
 # Ajustar el modelo de Regresión Logística en el Conjunto de Entrenamiento
 from sklearn.linear_model import LogisticRegression
-classifier = LogisticRegression(random_state = 0)
+classifier = LogisticRegression(random_state=0)
 classifier.fit(X_train, y_train)
 
 # Predicción de los resultados con el Conjunto de Testing
-y_pred  = classifier.predict(X_test)
+y_pred = classifier.predict(X_test)
 
 # Elaborar una matriz de confusión
 from sklearn.metrics import confusion_matrix
