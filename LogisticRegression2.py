@@ -56,7 +56,8 @@ plt.contourf(X1, X2, classifier.predict(np.array([X1.ravel(), X2.ravel()]).T).re
 plt.xlim(X1.min(), X1.max())
 plt.ylim(X2.min(), X2.max())
 for i, j in enumerate(np.unique(y_set)):
-    plt.scatter(X_set[y_set == j, 0], X_set[y_set == j, 1], c=ListedColormap(('red', 'green'))(i), label=j)
+    colors1 = np.array([ListedColormap(('red', 'green'))(i)])
+    plt.scatter(X_set[y_set == j, 0], X_set[y_set == j, 1], c=colors1, label=j)
 plt.title('Clasificador (Conjunto de Entrenamiento)')
 plt.xlabel('Edad')
 plt.ylabel('Sueldo Estimado')
@@ -74,7 +75,8 @@ plt.contourf(X1, X2, classifier.predict(np.array([X1.ravel(), X2.ravel()]).T).re
 plt.xlim(X1.min(), X1.max())
 plt.ylim(X2.min(), X2.max())
 for i, j in enumerate(np.unique(y_set)):
-    plt.scatter(X_set[y_set == j, 0], X_set[y_set == j, 1], c=ListedColormap(('red', 'green'))(i), label=j)
+    colors0 = np.array(ListedColormap(('red', 'green'))(i)).reshape(1, -1)
+    plt.scatter(X_set[y_set == j, 0], X_set[y_set == j, 1], c=colors0, label=j)
 plt.title('Clasificador (Conjunto de Test)')
 plt.xlabel('Edad')
 plt.ylabel('Sueldo Estimado')

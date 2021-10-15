@@ -72,7 +72,7 @@ print(np.array(exam_outcome))
 
 print(predvalsP)
 
-logregmodel.score(desmat, np.array(exam_outcome))
+print(logregmodel.score(desmat, np.array(exam_outcome)))
 
 
 # In[ ]:

@@ -32,8 +32,8 @@ from sklearn.preprocessing import StandardScaler
 scalar_ = StandardScaler()
 
 LoanPrep['income'] = scalar_.fit_transform(LoanPrep[['income']])
-LoanPrep['loanamt'] = scalar_.fit_transform(LoanPrep[['loanamt']])
-# LoanPrep['loanamt'] = scalar_.transform(LoanPrep[['loanamt']])
+# LoanPrep['loanamt'] = scalar_.fit_transform(LoanPrep[['loanamt']])
+LoanPrep['loanamt'] = scalar_.transform(LoanPrep[['loanamt']])
 
 
 # Create the X (Independent) and Y (Dependent) dataframes
