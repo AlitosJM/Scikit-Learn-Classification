@@ -23,7 +23,7 @@ LoanPrep = LoanPrep.dropna()
 LoanPrep = LoanPrep.drop(['gender'], axis=1)
 
 # Create Dummy variables
-LoanPrep.dtypes
+print(LoanPrep.dtypes)
 LoanPrep = pd.get_dummies(LoanPrep, drop_first=True)
 
 
@@ -41,10 +41,15 @@ LoanPrep['loanamt'] = scalar_.fit_transform(LoanPrep[['loanamt']])
 Y = LoanPrep[['status_Y']]
 X = LoanPrep.drop(['status_Y'], axis=1)
 
+# X_ = LoanPrep.iloc[:, [0, 1, 2, 3]].values
+X_ = LoanPrep.iloc[:, 0:-1].values
+# Y_ = LoanPrep.iloc[:, -1].values
+Y_ = LoanPrep.iloc[:, 4].values
+
 
 # Split the X and Y dataset into training and testing set
 from sklearn.model_selection import train_test_split
-X_train, X_test, Y_train, Y_test = train_test_split(X, Y, test_size=0.3, random_state=1234, stratify=Y)
+X_train, X_test, Y_train, Y_test = train_test_split(X_, Y_, test_size=0.3, random_state=1234, stratify=Y)
 # X_train, X_test, Y_train, Y_test = train_test_split(X, Y, test_size=0.3, random_state=0)
 
 # Build the Logistic Regression model
