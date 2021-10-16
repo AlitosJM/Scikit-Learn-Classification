@@ -53,6 +53,11 @@ logregmodel = LogisticRegression(solver='liblinear')
 desmat = np.vstack((study_hours, sleep_hours)).T
 
 logregmodel.fit(desmat, np.array(exam_outcome))
+# https://stats.stackexchange.com/questions/127042/why-isnt-logistic-regression-called-logistic-classification
+exp_to_X = np.array(list(map(lambda item: np.exp(-1*(item.dot(logregmodel.coef_[0])+logregmodel.intercept_[0])), desmat)))
+
+probas = 1.0/(1 + exp_to_X)
+decisions = (probas > 0.5).astype(int)
 
 print("intercept_", logregmodel.intercept_)
 print("coef_", logregmodel.coef_)
