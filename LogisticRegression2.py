@@ -38,6 +38,11 @@ classifier.fit(X_train, y_train)
 
 # Predicción de los resultados con el Conjunto de Testing
 y_pred = classifier.predict(X_test)
+y_pred_prob = classifier.predict_proba(X_test).argmax(axis=1)
+mythreshold = 0.5
+decisions = ((classifier.predict_proba(X_test) >= mythreshold).astype(int)).argmax(axis=1)
+
+print("y_pred_prob:", y_pred_prob, sep="\n")
 
 # Elaborar una matriz de confusión
 from sklearn.metrics import confusion_matrix

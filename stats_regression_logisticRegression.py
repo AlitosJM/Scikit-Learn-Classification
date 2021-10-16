@@ -28,12 +28,12 @@ n = len(exam_outcome)
 
 # and plot
 for i in range(n):
-    plt.plot([exam_outcome[i]-.05, exam_outcome[i]+.05], [study_hours[i], sleep_hours[i]], color=[.7, .7, .7])
+    plt.plot([exam_outcome[i]-.1, exam_outcome[i]+.1], [study_hours[i], sleep_hours[i]], color=[.7, .7, .7])
 
-plt.plot(exam_outcome-.05*np.ones(n), study_hours, 'ks', markerfacecolor=[1, .8, 1], label='Study')
-plt.plot(exam_outcome+.05*np.ones(n), sleep_hours, 'ks', markerfacecolor=[.39, 1, 1], label='Sleep')
+plt.plot(exam_outcome-0.1*np.ones(n), study_hours, 'ks', markerfacecolor=[1, .8, 1], label='Study')
+plt.plot(exam_outcome+0.1*np.ones(n), sleep_hours, 'ks', markerfacecolor=[.39, 1, 1], label='Sleep')
 
-plt.xticks([0, 1], labels=('Fail', 'Pass'))
+# plt.xticks([0, 1], labels=('Fail', 'Pass'))
 plt.xlim([-.5, 1.5])
 plt.ylabel('Hours sleep or study')
 plt.legend()
@@ -54,8 +54,8 @@ desmat = np.vstack((study_hours, sleep_hours)).T
 
 logregmodel.fit(desmat, np.array(exam_outcome))
 
-print(logregmodel.intercept_)
-print(logregmodel.coef_)
+print("intercept_", logregmodel.intercept_)
+print("coef_", logregmodel.coef_)
 
 
 # In[ ]:
