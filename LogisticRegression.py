@@ -48,6 +48,7 @@ LoanPrep['loanamt'] = scalar_.transform(LoanPrep[['loanamt']])
 
 # Create the X (Independent) and Y (Dependent) dataframes
 # -------------------------------------------------------
+Ys = pd.DataFrame(LoanPrep, columns=["status_Y"])
 Y = LoanPrep[['status_Y']]
 X = LoanPrep.drop(['status_Y'], axis=1)
 
@@ -65,6 +66,7 @@ X_train, X_test, Y_train, Y_test = train_test_split(X_, Y_, test_size=0.3, rando
 # Build the Logistic Regression model
 from sklearn.linear_model import LogisticRegression
 lr = LogisticRegression()
+# for LoanPrep[['status_Y']]
 squezzing_Y_train = Y_train.squeeze()
 lr.fit(X_train, squezzing_Y_train)
 
