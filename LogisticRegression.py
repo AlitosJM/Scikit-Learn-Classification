@@ -21,6 +21,16 @@ LoanPrep = LoanPrep.dropna()
 
 # Drop irrelevant columns based on business sense
 LoanPrep = LoanPrep.drop(['gender'], axis=1)
+# LoanPrep.columns and iLoanPrep.keys() index object
+cols1 = list(LoanPrep.columns)
+cols2 = LoanPrep.columns.values.tolist()
+cols3 = LoanPrep.keys()
+print(cols2)
+print(1, pd.to_numeric(LoanPrep[cols1[-2]], errors='coerce').notnull().all())
+print(2, LoanPrep.apply(lambda s: pd.to_numeric(s, errors='coerce').notnull().all()))
+print(3, LoanPrep[cols1[-1]].name in LoanPrep.select_dtypes(include=['O', 'category']).columns)
+print(4, LoanPrep.apply(lambda s: s.name in LoanPrep.select_dtypes(include=['O', 'category']).columns))
+
 
 # Create Dummy variables
 print(LoanPrep.dtypes)
