@@ -29,14 +29,23 @@ cols3 = LoanPrep.keys()
 print("m1", cols1)
 print("m2", cols2)
 
-resp = (LoanPrep.apply(lambda s: pd.to_numeric(s, errors='coerce').notnull().all()))
+resp = LoanPrep.apply(lambda s: pd.to_numeric(s, errors='coerce').notnull().all())
+labelsOfNumericData = (lambda s: [s.keys()[i] for i, item in enumerate(s) if item])(resp)
 
-print(resp)
+NumericLoanPrep = pd.DataFrame(LoanPrep, columns=labelsOfNumericData)
+NumericOneZero = NumericLoanPrep.apply(lambda col: True if (col.eq(1) | col.eq(0)).eq(True).all() else False)
+labelsOfOneZero = (lambda s: [s.keys()[i] for i, item in enumerate(s) if item])(NumericOneZero)
+OneZeroLoanPrep = pd.DataFrame(LoanPrep, columns=labelsOfOneZero)
+
+# LoanPrepNumeric =  LoanPrep.apply(lambda s: pd.DataFrame(LoanPrep, columns=[labelsOfNumericData[0]]))
+
+print(labelsOfNumericData)
 truthy0 = (LoanPrep.iloc[:, 2].eq(1) | LoanPrep.iloc[:, 2].eq(0)).eq(True).all()
 # searching for 1s and 0s with LoanData
 truthy1 = (LoanData.iloc[:, 2].notnull().eq(1) | LoanData.iloc[:, 2].notnull().eq(0)).eq(True).all()
 
-truthy2 = LoanPrep.apply( lambda col: True if (col.eq(1) | col.eq(0)).eq(True).all() else False)
+# .all() or .any()
+
 # print(1, pd.to_numeric(LoanPrep[cols1[-2]], errors='coerce').notnull().all())
 # print(2, LoanPrep.apply(lambda s: pd.to_numeric(s, errors='coerce').notnull().all()))
 # print(3, LoanPrep[cols1[-1]].name in LoanPrep.select_dtypes(include=['O', 'category']).columns)
