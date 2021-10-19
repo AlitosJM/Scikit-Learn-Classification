@@ -49,12 +49,13 @@ truthy1 = (LoanData.iloc[:, 2].notnull().eq(1) | LoanData.iloc[:, 2].notnull().e
 # print(1, pd.to_numeric(LoanPrep[cols1[-2]], errors='coerce').notnull().all())
 # print(2, LoanPrep.apply(lambda s: pd.to_numeric(s, errors='coerce').notnull().all()))
 # print(3, LoanPrep[cols1[-1]].name in LoanPrep.select_dtypes(include=['O', 'category']).columns)
-# print(4, LoanPrep.apply(lambda s: s.name in LoanPrep.select_dtypes(include=['O', 'category']).columns))
-
+categories = LoanPrep.apply(lambda s: s.name in LoanPrep.select_dtypes(include=['O', 'category']).columns)
 
 # Create Dummy variables
 print(LoanPrep.dtypes)
-LoanPrep = pd.get_dummies(LoanPrep, drop_first=True)
+
+if categories.eq(True).any():
+    LoanPrep = pd.get_dummies(LoanPrep, drop_first=True)
 
 
 # Normalize the data (Income and Loan Amount) Using StandardScaler
