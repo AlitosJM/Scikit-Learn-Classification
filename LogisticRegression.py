@@ -8,19 +8,19 @@
 import pandas as pd
 
 # Read the data and Create a copy
-LoanData = pd.read_csv("./data/01Exercise1.csv")
+LoanData = pd.read_csv("./data/01Exercise2.csv")
 LoanPrep = LoanData.copy()
 
 
 # Find out columns with missing values
-LoanPrep.isnull().sum(axis=0)
+print(LoanPrep.isnull().sum(axis=0))
 
 
 # Replace Missing Values. Drop the rows.
 LoanPrep = LoanPrep.dropna()
 
 # Drop irrelevant columns based on business sense
-LoanPrep = LoanPrep.drop(['gender'], axis=1)
+# LoanPrep = LoanPrep.drop(['gender'], axis=1)
 # LoanPrep.columns and LoanPrep.keys() index object
 cols1 = list(LoanPrep.columns)
 # LoanPrep.columns.to_list()
